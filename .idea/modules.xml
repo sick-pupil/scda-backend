@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/scda-backend.iml" filepath="$PROJECT_DIR$/scda-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-api/scda-backend-api.iml" filepath="$PROJECT_DIR$/scda-backend-api/scda-backend-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-auth-gateway/scda-backend-auth-gateway.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-auth-gateway/scda-backend-auth-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-bi/scda-backend-bi.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-bi/scda-backend-bi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-common/scda-backend-common.iml" filepath="$PROJECT_DIR$/scda-backend-common/scda-backend-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-modules.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-scheduled/scda-backend-scheduled.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-scheduled/scda-backend-scheduled.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-spider/scda-backend-spider.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-spider/scda-backend-spider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scda-backend-modules/scda-backend-system/scda-backend-system.iml" filepath="$PROJECT_DIR$/scda-backend-modules/scda-backend-system/scda-backend-system.iml" />
+    </modules>
+  </component>
+</project>
