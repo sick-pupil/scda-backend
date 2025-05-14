@@ -8,6 +8,12 @@
     <name>scda-backend-api</name>
     <description>scda-backend-api</description>
 
+    <parent>
+        <groupId>com.scda</groupId>
+        <artifactId>scda-backend</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,10 +41,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
-                    <mainClass>com.scda.backend.api.ScdaBackendApiApplication</mainClass>
-                    <skip>true</skip>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>

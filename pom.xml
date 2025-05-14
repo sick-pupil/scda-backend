@@ -14,19 +14,67 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <scda-backend-common-core.version>0.0.1-SNAPSHOT</scda-backend-common-core.version>
+        <scda-backend-common-datasource.version>0.0.1-SNAPSHOT</scda-backend-common-datasource.version>
+        <scda-backend-common-redis.version>0.0.1-SNAPSHOT</scda-backend-common-redis.version>
     </properties>
-    <dependencies>
 
-    </dependencies>
+    <modules>
+        <module>scda-backend-api</module>
+        <module>scda-backend-modules</module>
+        <module>scda-backend-common</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud Alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- common-core -->
+            <dependency>
+                <groupId>com.scda</groupId>
+                <artifactId>scda-backend-common-core</artifactId>
+                <version>${scda-backend-common-core.version}</version>
+            </dependency>
+
+            <!-- common-datasource -->
+            <dependency>
+                <groupId>com.scda</groupId>
+                <artifactId>scda-backend-common-datasource</artifactId>
+                <version>${scda-backend-common-datasource.version}</version>
+            </dependency>
+
+            <!-- common-redis -->
+            <dependency>
+                <groupId>com.scda</groupId>
+                <artifactId>scda-backend-common-redis</artifactId>
+                <version>${scda-backend-common-redis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -47,10 +95,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
-                    <mainClass>com.scda.backend.ScdaBackendApplication</mainClass>
-                    <skip>true</skip>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>

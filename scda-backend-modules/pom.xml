@@ -9,6 +9,12 @@
     <description>scda-backend-modules</description>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>com.scda</groupId>
+        <artifactId>scda-backend</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <modules>
         <module>scda-backend-system</module>
         <module>scda-backend-spider</module>
@@ -23,23 +29,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
-
-    <dependencies>
-
-
-    </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
