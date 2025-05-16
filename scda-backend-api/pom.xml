@@ -7,12 +7,21 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>scda-backend-api</name>
     <description>scda-backend-api</description>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>com.scda</groupId>
         <artifactId>scda-backend</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
+    <modules>
+        <module>scda-backend-api-spider</module>
+        <module>scda-backend-api-system</module>
+        <module>scda-backend-api-bi</module>
+        <module>scda-backend-api-scheduled</module>
+        <module>scda-backend-api-auth-gateway</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -22,7 +31,10 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.scda</groupId>
+            <artifactId>scda-backend-common-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

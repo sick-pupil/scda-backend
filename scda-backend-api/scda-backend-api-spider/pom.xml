@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scda</groupId>
-    <artifactId>scda-backend-auth-gateway</artifactId>
+    <artifactId>scda-backend-api-spider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scda-backend-auth-gateway</name>
-    <description>scda-backend-auth-gateway</description>
+    <name>scda-backend-api-spider</name>
+    <description>scda-backend-api-spider</description>
 
     <parent>
         <groupId>com.scda</groupId>
-        <artifactId>scda-backend-modules</artifactId>
+        <artifactId>scda-backend-api</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -22,30 +22,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.scda</groupId>
-            <artifactId>scda-backend-common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.scda</groupId>
-            <artifactId>scda-backend-common-datasource</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.scda</groupId>
-            <artifactId>scda-backend-common-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.scda</groupId>
-            <artifactId>scda-backend-api-auth-gateway</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -65,7 +41,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.scda.backend.auth.gateway.ScdaBackendAuthGatewayApplication</mainClass>
+                    <mainClass>com.scda.backend.api.spider.ScdaBackendApiSpiderApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

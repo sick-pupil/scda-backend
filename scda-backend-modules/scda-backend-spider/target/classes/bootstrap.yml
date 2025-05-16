@@ -1,0 +1,36 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: scda-backend-spider
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.server-addr}
+        namespace: ${nacos.namespace}
+        group: ${nacos.config-group}
+        file-extension: yaml
+        username: ${nacos.username}
+        password: ${nacos.password}
+        extension-configs:
+          - data-id: database.yaml
+            group: ${nacos.config-group}
+          - data-id: redis.yaml
+            group: ${nacos.config-group}
+      discovery:
+        server-addr: ${nacos.server-addr}
+        namespace: ${nacos.namespace}
+        group: ${nacos.instance-group}
+        username: ${nacos.username}
+        password: ${nacos.password}
+
+nacos:
+  server-addr: 127.0.0.1:8848
+  namespace: f135186f-6d7b-4629-ae8f-eb4af322c8aa
+  config-group: scda-backend-spider
+  instance-group: scda-backend
+  username: nacos
+  password: nacos

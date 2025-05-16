@@ -19,6 +19,7 @@
         <module>scda-backend-common-core</module>
         <module>scda-backend-common-datasource</module>
         <module>scda-backend-common-redis</module>
+        <module>scda-backend-common-swagger</module>
     </modules>
 
     <properties>
