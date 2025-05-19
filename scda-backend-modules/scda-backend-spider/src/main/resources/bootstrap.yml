@@ -12,7 +12,6 @@ spring:
         server-addr: ${nacos.server-addr}
         namespace: ${nacos.namespace}
         group: ${nacos.config-group}
-        file-extension: yaml
         username: ${nacos.username}
         password: ${nacos.password}
         extension-configs:

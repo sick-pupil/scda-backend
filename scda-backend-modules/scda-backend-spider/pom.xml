@@ -64,6 +64,11 @@
 
         <dependency>
             <groupId>com.scda</groupId>
+            <artifactId>scda-backend-common-swagger</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.scda</groupId>
             <artifactId>scda-backend-api-spider</artifactId>
         </dependency>
     </dependencies>

@@ -19,6 +19,7 @@
         <scda-backend-common-core.version>0.0.1-SNAPSHOT</scda-backend-common-core.version>
         <scda-backend-common-datasource.version>0.0.1-SNAPSHOT</scda-backend-common-datasource.version>
         <scda-backend-common-redis.version>0.0.1-SNAPSHOT</scda-backend-common-redis.version>
+        <scda-backend-common-swagger.version>0.0.1-SNAPSHOT</scda-backend-common-swagger.version>
         <scda-backend-api-auth-gateway.version>0.0.1-SNAPSHOT</scda-backend-api-auth-gateway.version>
         <scda-backend-api-bi.version>0.0.1-SNAPSHOT</scda-backend-api-bi.version>
         <scda-backend-api-scheduled.version>0.0.1-SNAPSHOT</scda-backend-api-scheduled.version>
@@ -86,6 +87,13 @@
                 <groupId>com.scda</groupId>
                 <artifactId>scda-backend-common-redis</artifactId>
                 <version>${scda-backend-common-redis.version}</version>
+            </dependency>
+
+            <!-- common-swagger -->
+            <dependency>
+                <groupId>com.scda</groupId>
+                <artifactId>scda-backend-common-swagger</artifactId>
+                <version>${scda-backend-common-swagger.version}</version>
             </dependency>
 
             <!-- api-auth-gateway -->
