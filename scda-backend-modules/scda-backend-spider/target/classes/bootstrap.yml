@@ -19,6 +19,8 @@ spring:
             group: ${nacos.config-group}
           - data-id: redis.yaml
             group: ${nacos.config-group}
+          - data-id: swagger.yaml
+            group: ${nacos.config-group}
       discovery:
         server-addr: ${nacos.server-addr}
         namespace: ${nacos.namespace}
