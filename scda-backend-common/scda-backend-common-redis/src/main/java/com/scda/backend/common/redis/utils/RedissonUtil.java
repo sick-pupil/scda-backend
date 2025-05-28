@@ -153,7 +153,7 @@ public class RedissonUtil {
      * @return 对应的多个键值
      */
     public Map<Object, Object> hmget(String key) {
-        return redissonClient.getMap(key);
+        return redissonClient.getMap(key).readAllMap();
     }
 
     /**
@@ -261,7 +261,7 @@ public class RedissonUtil {
      * @return
      */
     public Set<Object> sGet(String key) {
-        return redissonClient.getSet(key);
+        return redissonClient.getSet(key).readAll();
     }
 
     /**
