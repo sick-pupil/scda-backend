@@ -46,6 +46,11 @@
             <version>1.1.17</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.scda</groupId>
+            <artifactId>scda-backend-common-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -59,19 +64,6 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
