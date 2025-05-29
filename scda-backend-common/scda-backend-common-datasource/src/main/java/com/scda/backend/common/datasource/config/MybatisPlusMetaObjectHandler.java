@@ -16,6 +16,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "updatorUserId", Long.class, null);
         this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, null);
+        this.strictInsertFill(metaObject, "tenantId", Long.class, 123L);
         this.strictInsertFill(metaObject, "deleted", Integer.class, DeletedEnum.NON_DELETED.getDeleted());
         this.strictInsertFill(metaObject, "version", Integer.class, null);
     }
@@ -26,6 +27,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, null);
         this.strictInsertFill(metaObject, "updatorUserId", Long.class, 123456L);
         this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "tenantId", Long.class, 123L);
         this.strictInsertFill(metaObject, "deleted", Integer.class, DeletedEnum.NON_DELETED.getDeleted());
         this.strictInsertFill(metaObject, "version", Integer.class, null);
     }
