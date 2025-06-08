@@ -35,6 +35,16 @@
             <groupId>com.scda</groupId>
             <artifactId>scda-backend-common-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.scda</groupId>
+            <artifactId>scda-backend-common-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.scda</groupId>
+            <artifactId>scda-backend-common-swagger</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

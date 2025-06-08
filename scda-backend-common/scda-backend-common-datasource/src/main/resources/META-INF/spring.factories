@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.scda.backend.common.datasource.config.MybatisPlusConfig,\
+com.scda.backend.common.datasource.config.MybatisPlusMetaObjectHandler,\
+com.scda.backend.common.datasource.config.CustomTenantHandler

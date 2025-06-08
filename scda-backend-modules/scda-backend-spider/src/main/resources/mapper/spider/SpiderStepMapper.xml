@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scda.backend.spider.mapper.SpiderStepMapper">
+
+    <resultMap id="BaseResultMap" type="com.scda.backend.api.spider.entity.SpiderStep">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="instanceId" column="instance_id" jdbcType="BIGINT"/>
+        <result property="reqUrl" column="req_url" jdbcType="VARCHAR"/>
+        <result property="reqMethod" column="req_method" jdbcType="VARCHAR"/>
+        <result property="reqHeader" column="req_header" jdbcType="VARCHAR"/>
+        <result property="reqBody" column="req_body" jdbcType="VARCHAR"/>
+        <result property="respHeader" column="resp_header" jdbcType="VARCHAR"/>
+        <result property="respBody" column="resp_body" jdbcType="VARCHAR"/>
+        <result property="respStatusCode" column="resp_status_code" jdbcType="INTEGER"/>
+        <result property="buildReqStartTime" column="build_req_start_time" jdbcType="TIMESTAMP"/>
+        <result property="buildReqEndTime" column="build_req_end_time" jdbcType="TIMESTAMP"/>
+        <result property="reqStartTime" column="req_start_time" jdbcType="TIMESTAMP"/>
+        <result property="reqEndTime" column="req_end_time" jdbcType="TIMESTAMP"/>
+        <result property="respProcessStartTime" column="resp_process_start_time" jdbcType="TIMESTAMP"/>
+        <result property="respProcessEndTime" column="resp_process_end_time" jdbcType="TIMESTAMP"/>
+        <result property="buildReqCostTime" column="build_req_cost_time" jdbcType="BIGINT"/>
+        <result property="reqCostTime" column="req_cost_time" jdbcType="BIGINT"/>
+        <result property="respProcessCostTime" column="resp_process_cost_time" jdbcType="BIGINT"/>
+        <result property="totalCostTime" column="total_cost_time" jdbcType="BIGINT"/>
+        <result property="retryTime" column="retry_time" jdbcType="INTEGER"/>
+        <result property="successTime" column="success_time" jdbcType="INTEGER"/>
+        <result property="failTime" column="fail_time" jdbcType="INTEGER"/>
+        <result property="successPercent" column="success_percent" jdbcType="NUMERIC"/>
+        <result property="failPercent" column="fail_percent" jdbcType="NUMERIC"/>
+        <result property="runResult" column="run_result" jdbcType="SMALLINT"/>
+        <result property="exceptionMsg" column="exception_msg" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="SMALLINT"/>
+        <result property="creatorUserId" column="creator_user_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updatorUserId" column="updator_user_id" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,instance_id,req_url,
+        req_method,req_header,req_body,
+        resp_header,resp_body,resp_status_code,
+        build_req_start_time,build_req_end_time,req_start_time,
+        req_end_time,resp_process_start_time,resp_process_end_time,
+        build_req_cost_time,req_cost_time,resp_process_cost_time,
+        total_cost_time,retry_time,success_time,
+        fail_time,success_percent,fail_percent,
+        run_result,exception_msg,deleted,
+        creator_user_id,create_time,updator_user_id,
+        update_time,version,tenant_id
+    </sql>
+</mapper>

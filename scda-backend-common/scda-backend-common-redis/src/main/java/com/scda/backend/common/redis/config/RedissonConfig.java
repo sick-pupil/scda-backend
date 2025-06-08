@@ -17,14 +17,6 @@ import java.util.Map;
 @EnableCaching
 public class RedissonConfig {
 
-    @Autowired
-    private RedissonClient redissonClient;
-
-    @Bean(destroyMethod="shutdown")
-    public RedissonClient redissonClient() {
-        return this.redissonClient;
-    }
-
     @Bean
     public CacheManager cacheManager(RedissonClient redissonClient) {
         Map<String, CacheConfig> config = new HashMap<>();

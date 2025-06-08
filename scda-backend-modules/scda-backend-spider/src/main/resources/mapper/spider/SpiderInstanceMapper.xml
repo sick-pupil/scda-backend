@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scda.backend.spider.mapper.SpiderInstanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.scda.backend.api.spider.entity.SpiderInstance">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="sampleId" column="sample_id" jdbcType="BIGINT"/>
+        <result property="runStatus" column="run_status" jdbcType="SMALLINT"/>
+        <result property="initStartTime" column="init_start_time" jdbcType="TIMESTAMP"/>
+        <result property="initEndTime" column="init_end_time" jdbcType="TIMESTAMP"/>
+        <result property="runStartTime" column="run_start_time" jdbcType="TIMESTAMP"/>
+        <result property="runEndTime" column="run_end_time" jdbcType="TIMESTAMP"/>
+        <result property="destroyStartTime" column="destroy_start_time" jdbcType="TIMESTAMP"/>
+        <result property="destroyEndTime" column="destroy_end_time" jdbcType="TIMESTAMP"/>
+        <result property="initCostTime" column="init_cost_time" jdbcType="BIGINT"/>
+        <result property="runCostTime" column="run_cost_time" jdbcType="BIGINT"/>
+        <result property="destroyCostTime" column="destroy_cost_time" jdbcType="BIGINT"/>
+        <result property="totalCostTime" column="total_cost_time" jdbcType="BIGINT"/>
+        <result property="retryTime" column="retry_time" jdbcType="INTEGER"/>
+        <result property="successTime" column="success_time" jdbcType="INTEGER"/>
+        <result property="failTime" column="fail_time" jdbcType="INTEGER"/>
+        <result property="successPercent" column="success_percent" jdbcType="NUMERIC"/>
+        <result property="failPercent" column="fail_percent" jdbcType="NUMERIC"/>
+        <result property="runResult" column="run_result" jdbcType="SMALLINT"/>
+        <result property="exceptionMsg" column="exception_msg" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="SMALLINT"/>
+        <result property="creatorUserId" column="creator_user_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updatorUserId" column="updator_user_id" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sample_id,run_status,
+        init_start_time,init_end_time,run_start_time,
+        run_end_time,destroy_start_time,destroy_end_time,
+        init_cost_time,run_cost_time,destroy_cost_time,
+        total_cost_time,retry_time,success_time,
+        fail_time,success_percent,fail_percent,
+        run_result,exception_msg,deleted,
+        creator_user_id,create_time,updator_user_id,
+        update_time,version,tenant_id
+    </sql>
+</mapper>
