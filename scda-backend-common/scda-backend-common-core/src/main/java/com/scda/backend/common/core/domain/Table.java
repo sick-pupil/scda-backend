@@ -11,7 +11,7 @@ public class Table<T> implements Serializable {
 
     private List<T> rows;
 
-    private Integer totalSize;
+    private Long totalSize;
 
     private Integer code;
 
@@ -26,18 +26,18 @@ public class Table<T> implements Serializable {
         this.msg = msg;
     }
 
-    private Table(List<T> rows, Integer totalSize) {
+    private Table(List<T> rows, Long totalSize) {
         this.rows = rows;
         this.totalSize = totalSize;
     }
 
-    private Table(List<T> rows, Integer totalSize, String msg) {
+    private Table(List<T> rows, Long totalSize, String msg) {
         this.rows = rows;
         this.msg = msg;
         this.totalSize = totalSize;
     }
 
-    private Table(List<T> rows, Integer totalSize, Integer code, String msg) {
+    private Table(List<T> rows, Long totalSize, Integer code, String msg) {
         this.rows = rows;
         this.code = code;
         this.msg = msg;
@@ -52,11 +52,11 @@ public class Table<T> implements Serializable {
         return new Table(ResultCodeEnum.SUCCESS.getCode(), msg);
     }
 
-    public static <T> Table<T> success(List<T> rows, Integer totalSize) {
+    public static <T> Table<T> success(List<T> rows, Long totalSize) {
         return new Table(rows, totalSize, ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMsg());
     }
 
-    public static <T> Table<T> success(List<T> rows, Integer totalSize, String msg) {
+    public static <T> Table<T> success(List<T> rows, Long totalSize, String msg) {
         return new Table(rows, totalSize, ResultCodeEnum.SUCCESS.getCode(), msg);
     }
 
@@ -64,11 +64,11 @@ public class Table<T> implements Serializable {
         return new Table(ResultCodeEnum.BUSINESS_ERROR.getCode(), msg);
     }
 
-    public static <T> Table<T> businessError(List<T> rows, Integer totalSize) {
+    public static <T> Table<T> businessError(List<T> rows, Long totalSize) {
         return new Table(rows, totalSize, ResultCodeEnum.BUSINESS_ERROR.getCode(), ResultCodeEnum.BUSINESS_ERROR.getMsg());
     }
 
-    public static <T> Table<T> businessError(List<T> rows, Integer totalSize, String msg) {
+    public static <T> Table<T> businessError(List<T> rows, Long totalSize, String msg) {
         return new Table(rows, totalSize, ResultCodeEnum.BUSINESS_ERROR.getCode(), msg);
     }
 
@@ -76,11 +76,11 @@ public class Table<T> implements Serializable {
         return new Table(ResultCodeEnum.FAIL.getCode(), msg);
     }
 
-    public static <T> Table<T> fail(List<T> rows, Integer totalSize) {
+    public static <T> Table<T> fail(List<T> rows, Long totalSize) {
         return new Table(rows, totalSize, ResultCodeEnum.FAIL.getCode(), ResultCodeEnum.FAIL.getMsg());
     }
 
-    public static <T> Table<T> fail(List<T> rows, Integer totalSize, String msg) {
+    public static <T> Table<T> fail(List<T> rows, Long totalSize, String msg) {
         return new Table(rows, totalSize, ResultCodeEnum.FAIL.getCode(), msg);
     }
 }
