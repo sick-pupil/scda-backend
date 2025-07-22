@@ -287,6 +287,7 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
         //删除trigger记录
         List<ScheduledRelJobTrigger> relJobTriggerList = relJobTriggerService.getRelsByJobId(job.getId());
         if(CollectionUtils.isNotEmpty(relJobTriggerList)) {
+            relJobTriggerService.removeBatchByIds(relJobTriggerList.stream().map(ScheduledRelJobTrigger::getId).collect(Collectors.toList()));
             List<Long> triggerIdList = relJobTriggerList.stream().map(ScheduledRelJobTrigger::getTriggerId).distinct().collect(Collectors.toList());
             triggersService.removeBatchByIds(triggerIdList);
         }
