@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scda.backend.api.scheduled.IScheduledJobService;
+import com.scda.backend.api.scheduled.IScheduledRelJobTriggerService;
+import com.scda.backend.api.scheduled.IScheduledTriggersService;
 import com.scda.backend.api.scheduled.dto.ScheduledJobCreateDTO;
 import com.scda.backend.api.scheduled.dto.ScheduledJobDeleteDTO;
 import com.scda.backend.api.scheduled.dto.ScheduledJobReadDTO;
 import com.scda.backend.api.scheduled.dto.ScheduledJobUpdateDTO;
 import com.scda.backend.api.scheduled.entity.ScheduledJob;
+import com.scda.backend.api.scheduled.entity.ScheduledRelJobTrigger;
 import com.scda.backend.api.scheduled.enums.JobRunStatusEnum;
 import com.scda.backend.api.scheduled.vo.ScheduledJobDetailVO;
 import com.scda.backend.common.core.exception.BusinessException;
@@ -38,6 +41,12 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
 
     @Autowired
     private Scheduler scheduler;
+
+    @Autowired
+    private IScheduledTriggersService triggersService;
+
+    @Autowired
+    private IScheduledRelJobTriggerService relJobTriggerService;
 
     @Override
     public void create(ScheduledJobCreateDTO req) throws BusinessException {
@@ -94,6 +103,7 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
         queryWrapper.like(ObjectUtils.isNotEmpty(req.getRecovery()), ScheduledJob::getRecovery, req.getRecovery());
         queryWrapper.ge(ObjectUtils.isNotEmpty(req.getStartCreateTime()), ScheduledJob::getCreateTime, req.getStartCreateTime());
         queryWrapper.le(ObjectUtils.isNotEmpty(req.getEndCreateTime()), ScheduledJob::getCreateTime, req.getEndCreateTime());
+        queryWrapper.eq(ObjectUtils.isNotEmpty(req.getRunStatus()), ScheduledJob::getRunStatus, req.getRunStatus());
 
         List<ScheduledJob> jobList = (List<ScheduledJob>) CollectionUtils.emptyIfNull(list(queryWrapper));
         List<ScheduledJobDetailVO> jobDetailVOList = jobList.stream().map(i -> {
@@ -114,6 +124,7 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
         queryWrapper.like(ObjectUtils.isNotEmpty(req.getRecovery()), ScheduledJob::getRecovery, req.getRecovery());
         queryWrapper.ge(ObjectUtils.isNotEmpty(req.getStartCreateTime()), ScheduledJob::getCreateTime, req.getStartCreateTime());
         queryWrapper.le(ObjectUtils.isNotEmpty(req.getEndCreateTime()), ScheduledJob::getCreateTime, req.getEndCreateTime());
+        queryWrapper.eq(ObjectUtils.isNotEmpty(req.getRunStatus()), ScheduledJob::getRunStatus, req.getRunStatus());
 
         Page<ScheduledJob> page = new Page<>(req.getPageQuery().getCurrentPageIndex(), req.getPageQuery().getPageSize());
         Page entityPageRs = page(page, queryWrapper);
@@ -134,30 +145,171 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
     }
 
     @Override
+    public Boolean checkExists(ScheduledJobReadDTO req) throws BusinessException {
+        if(StringUtils.isBlank(req.getGroup()) || StringUtils.isBlank(req.getName())) {
+            throw new BusinessException("组名称或名称非空");
+        }
+
+        //判断job是否存在表中以及scheduler中
+        Boolean isTbExists = Boolean.FALSE, isSchedulerJobExists = Boolean.FALSE;
+        LambdaQueryWrapper<ScheduledJob> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(ScheduledJob::getGroup, req.getGroup());
+        queryWrapper.eq(ScheduledJob::getName, req.getName());
+        isTbExists = this.baseMapper.exists(queryWrapper);
+
+        try {
+            isSchedulerJobExists = scheduler.checkExists(new JobKey(req.getName(), req.getGroup()));
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+
+        if(isTbExists || isSchedulerJobExists) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+    @Override
     public void update(ScheduledJobUpdateDTO req) throws BusinessException {
+        //获取job记录
+        ScheduledJob job = getById(req.getId());
+        if(ObjectUtils.isEmpty(job)) {
+            throw new BusinessException("不存在该job");
+        }
+        if(StringUtils.isBlank(job.getGroup()) || StringUtils.isBlank(job.getName())) {
+            throw new BusinessException("该job配置不完整");
+        }
+
         //判断job是否存在
+        ScheduledJobReadDTO readDTO = new ScheduledJobReadDTO();
+        BeanUtils.copyProperties(req, readDTO);
+        Boolean isExists = checkExists(readDTO);
+        if(!isExists) {
+            throw new BusinessException("该job并不存在");
+        }
 
+        //判断job是否正在运行，运行则暂停
+        try {
+            List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
+            for(JobExecutionContext context : executingJobs) {
+                JobKey key = context.getJobDetail().getKey();
+                if (key.getName().equals(job.getName()) && key.getGroup().equals(job.getGroup())) {
+                    scheduler.pauseJob(new JobKey(job.getName(), job.getGroup()));
+                }
+            }
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
 
-        //判断job是否绑定了trigger
+        //判断job是否绑定了trigger，是则解绑
+        try {
+            JobKey jobKey = new JobKey(job.getName(), job.getGroup());
+            List<? extends Trigger> triggersByJob = scheduler.getTriggersOfJob(jobKey);
+            for (Trigger trigger : triggersByJob) {
+                TriggerKey triggerKey = trigger.getKey();
+                scheduler.unscheduleJob(triggerKey);
+            }
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+        //删除trigger
+        List<ScheduledRelJobTrigger> relJobTriggerList = relJobTriggerService.getRelsByJobId(job.getId());
+        if(CollectionUtils.isNotEmpty(relJobTriggerList)) {
+            List<Long> triggerIdList = relJobTriggerList.stream().map(ScheduledRelJobTrigger::getTriggerId).distinct().collect(Collectors.toList());
+            triggersService.removeBatchByIds(triggerIdList);
+        }
 
+        //覆盖job
+        //判断是否存在该class
+        Class jobClazz;
+        try {
+            jobClazz = Class.forName(req.getClassName());
+        } catch (ClassNotFoundException ex) {
+            throw new BusinessException("不存在" + req.getClassName() + "该类");
+        }
+        //判断该class是否为jobClass
+        if(!Job.class.isAssignableFrom(jobClazz)) {
+            throw new BusinessException(req.getClassName() + "该类并非为Job类");
+        }
 
-        //判断job是否正在运行
+        //job入参
+        JobDataMap jobDataMap = new JobDataMap();
+        JSONObject jobParam = req.getParams();
+        if(jobParam != null && !jobParam.isEmpty()) {
+            jobDataMap.putAll(jobParam.to(Map.class));
+        }
 
+        //job创建
+        JobDetail jobDetail = JobBuilder.newJob()
+                .ofType(jobClazz)
+                .withIdentity(req.getName(), req.getGroup())
+                .withDescription(req.getDesc())
+                .storeDurably(Boolean.TRUE)
+                .requestRecovery(req.getRecovery())
+                .usingJobData(jobDataMap)
+                .build();
+
+        //添加job
+        try {
+            scheduler.addJob(jobDetail, Boolean.TRUE);
+        } catch (SchedulerException ex) {
+            throw new BusinessException("创建定时任务报错");
+        }
+
+        //记录job
+        ScheduledJob entity = new ScheduledJob();
+        BeanUtils.copyProperties(req, entity);
+        entity.setRunStatus(JobRunStatusEnum.NEW.getRunStatus());
+        updateById(entity);
     }
 
     @Override
     public void delete(ScheduledJobDeleteDTO req) throws BusinessException {
-        //判断job是否存在
+        //获取job记录
         ScheduledJob job = getById(req.getId());
         if(ObjectUtils.isEmpty(job)) {
-            throw new BusinessException("不存在对应定时任务");
+            throw new BusinessException("不存在该job");
+        }
+        if(StringUtils.isBlank(job.getGroup()) || StringUtils.isBlank(job.getName())) {
+            throw new BusinessException("该job配置不完整");
         }
 
-        //判断job是否绑定了trigger
+        //判断job是否存在
+        ScheduledJobReadDTO readDTO = new ScheduledJobReadDTO();
+        BeanUtils.copyProperties(req, readDTO);
+        Boolean isExists = checkExists(readDTO);
+        if(!isExists) {
+            throw new BusinessException("该job并不存在");
+        }
 
+        //判断job是否正在运行，运行则暂停
+        try {
+            List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
+            for(JobExecutionContext context : executingJobs) {
+                JobKey key = context.getJobDetail().getKey();
+                if (key.getName().equals(job.getName()) && key.getGroup().equals(job.getGroup())) {
+                    scheduler.pauseJob(new JobKey(job.getName(), job.getGroup()));
+                }
+            }
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
 
-        //判断job是否正在运行
-
+        //删除job以及关联trigger
+        try {
+            scheduler.deleteJob(new JobKey(job.getName(), job.getGroup()));
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+        //删除trigger记录
+        List<ScheduledRelJobTrigger> relJobTriggerList = relJobTriggerService.getRelsByJobId(job.getId());
+        if(CollectionUtils.isNotEmpty(relJobTriggerList)) {
+            List<Long> triggerIdList = relJobTriggerList.stream().map(ScheduledRelJobTrigger::getTriggerId).distinct().collect(Collectors.toList());
+            triggersService.removeBatchByIds(triggerIdList);
+        }
+        //删除job记录
+        removeById(job.getId());
     }
 
     @Override

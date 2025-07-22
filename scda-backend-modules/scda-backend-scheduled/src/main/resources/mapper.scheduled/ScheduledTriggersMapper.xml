@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scda.backend.scheduled.mapper.ScheduledTriggersMapper">
+
+    <resultMap id="BaseResultMap" type="com.scda.backend.api.scheduled.entity.ScheduledTriggers">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="group" column="group" jdbcType="VARCHAR"/>
+        <result property="desc" column="desc" jdbcType="VARCHAR"/>
+        <result property="startNow" column="start_now" jdbcType="BOOLEAN"/>
+        <result property="endAt" column="end_at" jdbcType="TIMESTAMP"/>
+        <result property="params" column="params" jdbcType="OTHER"/>
+        <result property="scheduleType" column="schedule_type" jdbcType="SMALLINT"/>
+        <result property="simpleIntervalSeconds" column="simple_interval_seconds" jdbcType="INTEGER"/>
+        <result property="simpleIntervalMinutes" column="simple_interval_minutes" jdbcType="INTEGER"/>
+        <result property="simpleIntervalHours" column="simple_interval_hours" jdbcType="INTEGER"/>
+        <result property="simpleRepeatCount" column="simple_repeat_count" jdbcType="INTEGER"/>
+        <result property="simpleRepeatForever" column="simple_repeat_forever" jdbcType="BOOLEAN"/>
+        <result property="cronExpression" column="cron_expression" jdbcType="VARCHAR"/>
+        <result property="calendarIntervalDays" column="calendar_interval_days" jdbcType="INTEGER"/>
+        <result property="calendarIntervalWeeks" column="calendar_interval_weeks" jdbcType="INTEGER"/>
+        <result property="calendarIntervalMonths" column="calendar_interval_months" jdbcType="INTEGER"/>
+        <result property="calendarIntervalYears" column="calendar_interval_years" jdbcType="INTEGER"/>
+        <result property="dailyStartAt" column="daily_start_at" jdbcType="TIME"/>
+        <result property="dailyEndAt" column="daily_end_at" jdbcType="TIME"/>
+        <result property="dailyIntervalSeconds" column="daily_interval_seconds" jdbcType="INTEGER"/>
+        <result property="dailyOnDayOfWeek" column="daily_on_day_of_week" jdbcType="SMALLINT"/>
+        <result property="dailyEveryDay" column="daily_every_day" jdbcType="BOOLEAN"/>
+        <result property="dailyMonToFri" column="daily_mon_to_fri" jdbcType="BOOLEAN"/>
+        <result property="dailySatToSun" column="daily_sat_to_sun" jdbcType="BOOLEAN"/>
+        <result property="dailyRepeatCount" column="daily_repeat_count" jdbcType="SMALLINT"/>
+        <result property="deleted" column="deleted" jdbcType="SMALLINT"/>
+        <result property="creatorUserId" column="creator_user_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updatorUserId" column="updator_user_id" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,group,
+        desc,start_now,end_at,
+        params,schedule_type,simple_interval_seconds,
+        simple_interval_minutes,simple_interval_hours,simple_repeat_count,
+        simple_repeat_forever,cron_expression,calendar_interval_days,
+        calendar_interval_weeks,calendar_interval_months,calendar_interval_years,
+        daily_start_at,daily_end_at,daily_interval_seconds,
+        daily_on_day_of_week,daily_every_day,daily_mon_to_fri,
+        daily_sat_to_sun,daily_repeat_count,deleted,
+        creator_user_id,create_time,updator_user_id,
+        update_time,version,tenant_id
+    </sql>
+</mapper>

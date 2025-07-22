@@ -47,6 +47,12 @@ public class ScheduledJobController {
         return Result.success();
     }
 
+    @ApiOperation("是否存在")
+    @PutMapping("/checkExists")
+    public Result checkExists(ScheduledJobReadDTO req) throws BusinessException {
+        return Result.success(scheduledJobService.checkExists(req));
+    }
+
     @ApiOperation("删除")
     @DeleteMapping("/delete")
     public Result delete(@RequestBody ScheduledJobDeleteDTO req) throws BusinessException {

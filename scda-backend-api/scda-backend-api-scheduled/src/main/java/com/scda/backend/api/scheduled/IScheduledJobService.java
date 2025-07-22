@@ -15,7 +15,7 @@ import java.util.List;
 * @description 针对表【scheduled_job】的数据库操作Service
 * @createDate 2025-06-23 20:25:38
 */
-@Transactional(rollbackFor = RuntimeException.class)
+@Transactional(rollbackFor = BusinessException.class)
 public interface IScheduledJobService extends IService<ScheduledJob> {
 
     void create(ScheduledJobCreateDTO req) throws BusinessException;
@@ -23,6 +23,8 @@ public interface IScheduledJobService extends IService<ScheduledJob> {
     List<ScheduledJobDetailVO> read(ScheduledJobReadDTO req);
 
     Page<ScheduledJobDetailVO> readPage(ScheduledJobReadDTO req);
+
+    Boolean checkExists(ScheduledJobReadDTO req) throws BusinessException;
 
     void update(ScheduledJobUpdateDTO req) throws BusinessException;
 
