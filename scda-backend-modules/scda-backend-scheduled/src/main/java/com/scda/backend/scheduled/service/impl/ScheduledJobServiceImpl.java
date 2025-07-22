@@ -202,24 +202,6 @@ public class ScheduledJobServiceImpl extends ServiceImpl<ScheduledJobMapper, Sch
             throw new BusinessException(ex.getMessage());
         }
 
-        //判断job是否绑定了trigger，是则解绑
-        try {
-            JobKey jobKey = new JobKey(job.getName(), job.getGroup());
-            List<? extends Trigger> triggersByJob = scheduler.getTriggersOfJob(jobKey);
-            for (Trigger trigger : triggersByJob) {
-                TriggerKey triggerKey = trigger.getKey();
-                scheduler.unscheduleJob(triggerKey);
-            }
-        } catch (SchedulerException ex) {
-            throw new BusinessException(ex.getMessage());
-        }
-        //删除trigger
-        List<ScheduledRelJobTrigger> relJobTriggerList = relJobTriggerService.getRelsByJobId(job.getId());
-        if(CollectionUtils.isNotEmpty(relJobTriggerList)) {
-            List<Long> triggerIdList = relJobTriggerList.stream().map(ScheduledRelJobTrigger::getTriggerId).distinct().collect(Collectors.toList());
-            triggersService.removeBatchByIds(triggerIdList);
-        }
-
         //覆盖job
         //判断是否存在该class
         Class jobClazz;
