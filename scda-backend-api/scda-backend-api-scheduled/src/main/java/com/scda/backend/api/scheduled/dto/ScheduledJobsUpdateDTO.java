@@ -5,13 +5,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @ApiModel("更新定时任务DTO")
 @Data
-public class ScheduledJobUpdateDTO implements Serializable {
+public class ScheduledJobsUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 2453355551027954882L;
 
@@ -57,4 +56,10 @@ public class ScheduledJobUpdateDTO implements Serializable {
      */
     @ApiModelProperty("入参")
     private JSONObject params;
+
+    /**
+     * 绑定trigger
+     */
+    @ApiModelProperty("绑定trigger")
+    private ScheduledTriggersUpdateDTO bindTrigger;
 }

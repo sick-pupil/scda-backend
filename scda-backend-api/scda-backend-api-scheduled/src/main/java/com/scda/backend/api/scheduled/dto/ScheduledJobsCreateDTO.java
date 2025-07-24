@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @ApiModel("创建定时任务DTO")
 @Data
-public class ScheduledJobCreateDTO implements Serializable {
+public class ScheduledJobsCreateDTO implements Serializable {
 
     private static final long serialVersionUID = -1302153651045347326L;
 

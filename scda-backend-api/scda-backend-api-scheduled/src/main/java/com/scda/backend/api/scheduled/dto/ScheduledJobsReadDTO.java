@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @ApiModel("读取定时任务DTO")
 @Data
-public class ScheduledJobReadDTO implements Serializable {
+public class ScheduledJobsReadDTO implements Serializable {
 
     private static final long serialVersionUID = 2735782716560222921L;
 

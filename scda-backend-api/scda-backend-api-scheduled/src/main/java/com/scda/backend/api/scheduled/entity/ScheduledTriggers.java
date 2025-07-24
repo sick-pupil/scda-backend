@@ -7,8 +7,7 @@ import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel(value="ScheduledTriggers对象", description="")
 @Data
@@ -61,7 +60,7 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     */
     @ApiModelProperty("结束时刻")
     @TableField("end_at")
-    private Date endAt;
+    private LocalDateTime endAt;
 
     /**
     * 入参
@@ -152,14 +151,14 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     */
     @ApiModelProperty("每日调度，开始时刻")
     @TableField("daily_start_at")
-    private Date dailyStartAt;
+    private LocalDateTime dailyStartAt;
 
     /**
     * 每日调度，结束时刻
     */
     @ApiModelProperty("每日调度，结束时刻")
     @TableField("daily_end_at")
-    private Date dailyEndAt;
+    private LocalDateTime dailyEndAt;
 
     /**
     * 每日调度，间隔秒
@@ -223,7 +222,7 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     */
     @ApiModelProperty("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
     * 更新者
@@ -237,7 +236,7 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     */
     @ApiModelProperty("更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
     * 版本号

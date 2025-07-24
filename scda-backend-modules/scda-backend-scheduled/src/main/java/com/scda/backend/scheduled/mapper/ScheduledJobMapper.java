@@ -1,7 +1,7 @@
 package com.scda.backend.scheduled.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.scda.backend.api.scheduled.entity.ScheduledJob;
+import com.scda.backend.api.scheduled.entity.ScheduledJobs;
 
 
 /**
@@ -10,7 +10,7 @@ import com.scda.backend.api.scheduled.entity.ScheduledJob;
 * @createDate 2025-06-23 20:25:38
 * @Entity com.scda.backend.api.scheduled.entity.ScheduledJob
 */
-public interface ScheduledJobMapper extends BaseMapper<ScheduledJob> {
+public interface ScheduledJobMapper extends BaseMapper<ScheduledJobs> {
 
 }
 

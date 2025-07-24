@@ -1,6 +1,10 @@
 package com.scda.backend.scheduled.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.scda.backend.api.scheduled.dto.ScheduledTriggersCreateDTO;
+import com.scda.backend.api.scheduled.dto.ScheduledTriggersReadDTO;
+import com.scda.backend.common.core.exception.BusinessException;
+import org.quartz.Trigger;
 import org.springframework.stereotype.Service;
 
 import com.scda.backend.api.scheduled.entity.ScheduledTriggers;
@@ -14,8 +18,17 @@ import com.scda.backend.scheduled.mapper.ScheduledTriggersMapper;
 */
 @Service
 public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersMapper, ScheduledTriggers>
-    implements IScheduledTriggersService{
+    implements IScheduledTriggersService {
 
+    @Override
+    public Trigger create(ScheduledTriggersCreateDTO req) throws BusinessException {
+        return null;
+    }
+
+    @Override
+    public Trigger transfer2Trigger(ScheduledTriggersReadDTO req) throws BusinessException {
+        return null;
+    }
 }
 
 

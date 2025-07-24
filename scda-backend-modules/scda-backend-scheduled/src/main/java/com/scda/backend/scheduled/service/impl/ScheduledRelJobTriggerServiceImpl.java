@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import com.scda.backend.api.scheduled.entity.ScheduledRelJobTrigger;
@@ -27,11 +28,15 @@ public class ScheduledRelJobTriggerServiceImpl extends ServiceImpl<ScheduledRelJ
         LambdaQueryWrapper<ScheduledRelJobTrigger> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.eq(ScheduledRelJobTrigger::getJobId, jobId);
         List<ScheduledRelJobTrigger> relList = list(lambdaQueryWrapper);
-        if(CollectionUtils.isEmpty(relList)) {
-            return new ArrayList<>();
-        } else {
-            return relList;
-        }
+        return (List<ScheduledRelJobTrigger>) CollectionUtils.emptyIfNull(relList);
+    }
+
+    @Override
+    public ScheduledRelJobTrigger getRelsByJobIdTriggerId(Long jobId, Long triggerId) {
+        LambdaQueryWrapper<ScheduledRelJobTrigger> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(ScheduledRelJobTrigger::getJobId, jobId);
+        lambdaQueryWrapper.eq(ScheduledRelJobTrigger::getTriggerId, triggerId);
+        return getOne(lambdaQueryWrapper);
     }
 }
 

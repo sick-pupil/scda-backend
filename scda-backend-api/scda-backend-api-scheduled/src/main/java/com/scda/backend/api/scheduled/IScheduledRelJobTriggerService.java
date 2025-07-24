@@ -17,4 +17,6 @@ import java.util.List;
 public interface IScheduledRelJobTriggerService extends IService<ScheduledRelJobTrigger> {
 
     List<ScheduledRelJobTrigger> getRelsByJobId(Long jobId);
+
+    ScheduledRelJobTrigger getRelsByJobIdTriggerId(Long jobId, Long triggerId);
 }

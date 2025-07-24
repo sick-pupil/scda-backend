@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 * 
 * @TableName scheduled_job
 */
-public class ScheduledJob extends Model<ScheduledJob> {
+public class ScheduledJobs extends Model<ScheduledJobs> {
 
 
     /**
