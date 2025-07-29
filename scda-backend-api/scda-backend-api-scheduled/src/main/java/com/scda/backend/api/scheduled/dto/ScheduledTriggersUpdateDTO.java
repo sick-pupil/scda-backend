@@ -1,5 +1,6 @@
 package com.scda.backend.api.scheduled.dto;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -47,6 +48,12 @@ public class ScheduledTriggersUpdateDTO implements Serializable {
     private Boolean startNow;
 
     /**
+     * 开始时刻
+     */
+    @ApiModelProperty("开始时刻")
+    private LocalDateTime startAt;
+
+    /**
      * 结束时刻
      */
     @ApiModelProperty("结束时刻")
@@ -56,7 +63,7 @@ public class ScheduledTriggersUpdateDTO implements Serializable {
      * 入参
      */
     @ApiModelProperty("入参")
-    private Object params;
+    private JSONObject params;
 
     /**
      * 调度类型，0简单，1cron，2日历，3每日

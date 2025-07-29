@@ -24,11 +24,17 @@ public class ScheduledRelJobTriggerServiceImpl extends ServiceImpl<ScheduledRelJ
     implements IScheduledRelJobTriggerService{
 
     @Override
-    public List<ScheduledRelJobTrigger> getRelsByJobId(Long jobId) {
+    public ScheduledRelJobTrigger getRelsByJobId(Long jobId) {
         LambdaQueryWrapper<ScheduledRelJobTrigger> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.eq(ScheduledRelJobTrigger::getJobId, jobId);
-        List<ScheduledRelJobTrigger> relList = list(lambdaQueryWrapper);
-        return (List<ScheduledRelJobTrigger>) CollectionUtils.emptyIfNull(relList);
+        return getOne(lambdaQueryWrapper);
+    }
+
+    @Override
+    public ScheduledRelJobTrigger getRelsByTriggerId(Long triggerId) {
+        LambdaQueryWrapper<ScheduledRelJobTrigger> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(ScheduledRelJobTrigger::getTriggerId, triggerId);
+        return getOne(lambdaQueryWrapper);
     }
 
     @Override

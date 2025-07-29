@@ -16,7 +16,9 @@ import java.util.List;
 @Transactional(rollbackFor = BusinessException.class)
 public interface IScheduledRelJobTriggerService extends IService<ScheduledRelJobTrigger> {
 
-    List<ScheduledRelJobTrigger> getRelsByJobId(Long jobId);
+    ScheduledRelJobTrigger getRelsByJobId(Long jobId);
+
+    ScheduledRelJobTrigger getRelsByTriggerId(Long triggerId);
 
     ScheduledRelJobTrigger getRelsByJobIdTriggerId(Long jobId, Long triggerId);
 }

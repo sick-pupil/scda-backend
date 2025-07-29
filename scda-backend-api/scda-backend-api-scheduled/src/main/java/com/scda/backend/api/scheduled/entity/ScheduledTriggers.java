@@ -1,13 +1,16 @@
 package com.scda.backend.api.scheduled.entity;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Data;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @ApiModel(value="ScheduledTriggers对象", description="")
 @Data
@@ -56,6 +59,13 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     private Boolean startNow;
 
     /**
+     * 开始时刻
+     */
+    @ApiModelProperty("开始时刻")
+    @TableField("start_at")
+    private LocalDateTime startAt;
+
+    /**
     * 结束时刻
     */
     @ApiModelProperty("结束时刻")
@@ -66,8 +76,8 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     * 入参
     */
     @ApiModelProperty("入参")
-    @TableField("params")
-    private Object params;
+    @TableField(value = "params", typeHandler = FastjsonTypeHandler.class)
+    private JSONObject params;
 
     /**
     * 调度类型，0简单，1cron，2日历，3每日
@@ -151,14 +161,14 @@ public class ScheduledTriggers extends Model<ScheduledTriggers> {
     */
     @ApiModelProperty("每日调度，开始时刻")
     @TableField("daily_start_at")
-    private LocalDateTime dailyStartAt;
+    private LocalTime dailyStartAt;
 
     /**
     * 每日调度，结束时刻
     */
     @ApiModelProperty("每日调度，结束时刻")
     @TableField("daily_end_at")
-    private LocalDateTime dailyEndAt;
+    private LocalTime dailyEndAt;
 
     /**
     * 每日调度，间隔秒

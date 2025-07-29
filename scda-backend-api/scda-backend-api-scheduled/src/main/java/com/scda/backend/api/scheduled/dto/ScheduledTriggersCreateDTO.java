@@ -1,9 +1,12 @@
 package com.scda.backend.api.scheduled.dto;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,12 +20,14 @@ public class ScheduledTriggersCreateDTO implements Serializable {
      * trigger名称
      */
     @ApiModelProperty("trigger名称")
+    @NotBlank(message = "名称非空")
     private String name;
 
     /**
      * 组名称
      */
     @ApiModelProperty("组名称")
+    @NotBlank(message = "组名称非空")
     private String group;
 
     /**
@@ -35,7 +40,14 @@ public class ScheduledTriggersCreateDTO implements Serializable {
      * 是否立即执行一次
      */
     @ApiModelProperty("是否立即执行一次")
+    @NotNull(message = "是否立即执行一次非空")
     private Boolean startNow;
+
+    /**
+     * 开始时刻
+     */
+    @ApiModelProperty("开始时刻")
+    private LocalDateTime startAt;
 
     /**
      * 结束时刻
@@ -47,12 +59,13 @@ public class ScheduledTriggersCreateDTO implements Serializable {
      * 入参
      */
     @ApiModelProperty("入参")
-    private Object params;
+    private JSONObject params;
 
     /**
      * 调度类型，0简单，1cron，2日历，3每日
      */
     @ApiModelProperty("调度类型，0简单，1cron，2日历，3每日")
+    @NotNull(message = "调度类型非空")
     private Integer scheduleType;
 
     /**

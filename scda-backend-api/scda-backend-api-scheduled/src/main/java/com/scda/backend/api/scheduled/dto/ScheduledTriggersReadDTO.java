@@ -44,16 +44,16 @@ public class ScheduledTriggersReadDTO implements Serializable {
     private Boolean startNow;
 
     /**
+     * 开始时刻
+     */
+    @ApiModelProperty("开始时刻")
+    private LocalDateTime startAt;
+
+    /**
      * 结束时刻
      */
     @ApiModelProperty("结束时刻")
     private LocalDateTime endAt;
-
-    /**
-     * 入参
-     */
-    @ApiModelProperty("入参")
-    private Object params;
 
     /**
      * 调度类型，0简单，1cron，2日历，3每日

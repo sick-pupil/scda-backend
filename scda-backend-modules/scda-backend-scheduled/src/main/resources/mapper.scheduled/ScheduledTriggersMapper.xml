@@ -10,6 +10,7 @@
         <result property="group" column="group" jdbcType="VARCHAR"/>
         <result property="desc" column="desc" jdbcType="VARCHAR"/>
         <result property="startNow" column="start_now" jdbcType="BOOLEAN"/>
+        <result property="startAt" column="start_at" jdbcType="TIMESTAMP"/>
         <result property="endAt" column="end_at" jdbcType="TIMESTAMP"/>
         <result property="params" column="params" jdbcType="OTHER"/>
         <result property="scheduleType" column="schedule_type" jdbcType="SMALLINT"/>
@@ -42,7 +43,7 @@
 
     <sql id="Base_Column_List">
         id,name,group,
-        desc,start_now,end_at,
+        desc,start_now,start_at,end_at,
         params,schedule_type,simple_interval_seconds,
         simple_interval_minutes,simple_interval_hours,simple_repeat_count,
         simple_repeat_forever,cron_expression,calendar_interval_days,

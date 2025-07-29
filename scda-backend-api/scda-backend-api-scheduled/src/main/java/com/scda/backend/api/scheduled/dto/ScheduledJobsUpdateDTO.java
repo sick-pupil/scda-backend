@@ -60,6 +60,6 @@ public class ScheduledJobsUpdateDTO implements Serializable {
     /**
      * 绑定trigger
      */
-    @ApiModelProperty("绑定trigger")
-    private ScheduledTriggersUpdateDTO bindTrigger;
+    @ApiModelProperty("绑定或解绑trigger")
+    private ScheduledTriggersReadDTO bindTrigger;
 }

@@ -17,7 +17,7 @@ import com.scda.backend.api.scheduled.entity.ScheduledTriggers;
 @Transactional(rollbackFor = BusinessException.class)
 public interface IScheduledTriggersService extends IService<ScheduledTriggers> {
 
-    Trigger create(ScheduledTriggersCreateDTO req) throws BusinessException;
+    void create(ScheduledTriggersCreateDTO req) throws BusinessException;
 
     Trigger transfer2Trigger(ScheduledTriggersReadDTO req) throws BusinessException;
 }

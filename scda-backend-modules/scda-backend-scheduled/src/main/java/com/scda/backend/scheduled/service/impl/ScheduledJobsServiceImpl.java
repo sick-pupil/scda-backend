@@ -168,7 +168,7 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
             throw new BusinessException(ex.getMessage());
         }
 
-        if(isTbExists || isSchedulerJobExists) {
+        if(isTbExists && isSchedulerJobExists) {
             return Boolean.TRUE;
         } else {
             return Boolean.FALSE;
@@ -291,11 +291,10 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
             throw new BusinessException(ex.getMessage());
         }
         //删除trigger记录
-        List<ScheduledRelJobTrigger> relJobTriggerList = relJobTriggerService.getRelsByJobId(job.getId());
-        if(CollectionUtils.isNotEmpty(relJobTriggerList)) {
-            relJobTriggerService.removeBatchByIds(relJobTriggerList.stream().map(ScheduledRelJobTrigger::getId).collect(Collectors.toList()));
-            List<Long> triggerIdList = relJobTriggerList.stream().map(ScheduledRelJobTrigger::getTriggerId).distinct().collect(Collectors.toList());
-            triggersService.removeBatchByIds(triggerIdList);
+        ScheduledRelJobTrigger relJobTrigger = relJobTriggerService.getRelsByJobId(job.getId());
+        if(ObjectUtils.isNotEmpty(relJobTrigger)) {
+            relJobTriggerService.removeById(relJobTrigger.getId());
+            triggersService.removeById(relJobTrigger.getTriggerId());
         }
         //删除job记录
         removeById(job.getId());
@@ -304,7 +303,7 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
     @Override
     public void bindTrigger(ScheduledJobsUpdateDTO req) throws BusinessException {
         //判断job和trigger是否都存在
-        ScheduledTriggersUpdateDTO bindTrigger = req.getBindTrigger();
+        ScheduledTriggersReadDTO bindTrigger = req.getBindTrigger();
         ScheduledTriggers trigger;
         if(ObjectUtils.isEmpty(bindTrigger)) {
             throw new BusinessException("不存在该trigger");
@@ -315,14 +314,24 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
             }
         }
         ScheduledJobs job = getById(req.getId());
-        if(ObjectUtils.isEmpty(job)) {
+        ScheduledJobsReadDTO jobsReadDTO = new ScheduledJobsReadDTO();
+        jobsReadDTO.setName(job.getName());
+        jobsReadDTO.setGroup(job.getGroup());
+        if(!checkExists(jobsReadDTO)) {
             throw new BusinessException("不存在该job");
         }
+        JobKey jobKey = new JobKey(job.getName(), job.getGroup());
+        JobDetail jobDetail;
+        try {
+            jobDetail = scheduler.getJobDetail(jobKey);
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+
 
         //检查是否存在绑定关系
         ScheduledRelJobTrigger relJobTrigger = relJobTriggerService.getRelsByJobIdTriggerId(job.getId(), trigger.getId());
         Boolean isExistsBindingTrigger = Boolean.FALSE;
-        JobKey jobKey = new JobKey(job.getName(), job.getGroup());
         try {
             TriggerKey triggerKey = new TriggerKey(trigger.getName(), trigger.getGroup());
             List<? extends Trigger> bindingTriggersByJob = scheduler.getTriggersOfJob(jobKey);
@@ -337,7 +346,7 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
         }
 
         //绑定job与trigger
-        if(ObjectUtils.isNotEmpty(relJobTrigger) || isExistsBindingTrigger) {
+        if(ObjectUtils.isNotEmpty(relJobTrigger) && isExistsBindingTrigger) {
             throw new BusinessException("已绑定该job与trigger");
         } else {
             //建立关联关系
@@ -347,7 +356,18 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
             relJobTriggerService.save(insertRelJobTrigger);
 
             //创建quartz中的trigger并绑定job
+            Trigger bind2JobTrigger = triggersService.transfer2Trigger(req.getBindTrigger());
+            try {
+                scheduler.scheduleJob(jobDetail, bind2JobTrigger);
+            } catch (SchedulerException ex) {
+                throw new BusinessException("绑定该job与trigger失败");
+            }
         }
+    }
+
+    @Override
+    public void unBindTrigger(ScheduledJobsUpdateDTO req) throws BusinessException {
+
     }
 
     @Override
