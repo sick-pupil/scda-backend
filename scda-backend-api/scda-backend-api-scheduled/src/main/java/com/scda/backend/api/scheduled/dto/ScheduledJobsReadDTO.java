@@ -21,6 +21,12 @@ public class ScheduledJobsReadDTO implements Serializable {
     private PageQuery pageQuery;
 
     /**
+     * 主键id
+     */
+    @ApiModelProperty("主键id")
+    private Long id;
+
+    /**
      * jobClass名称
      */
     @ApiModelProperty("jobClass名称")

@@ -34,8 +34,6 @@ public interface IScheduledJobsService extends IService<ScheduledJobs> {
 
     void unBindTrigger(ScheduledJobsUpdateDTO req) throws BusinessException;
 
-    void start(ScheduledJobsUpdateDTO req) throws BusinessException;
-
     void resume(ScheduledJobsUpdateDTO req) throws BusinessException;
 
     void pause(ScheduledJobsUpdateDTO req) throws BusinessException;

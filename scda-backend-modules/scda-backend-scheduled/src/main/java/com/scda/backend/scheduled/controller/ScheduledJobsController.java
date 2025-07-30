@@ -67,10 +67,10 @@ public class ScheduledJobsController {
         return Result.success();
     }
 
-    @ApiOperation("启动")
-    @PutMapping("/start")
-    public Result start(@RequestBody ScheduledJobsUpdateDTO req) throws BusinessException {
-        scheduledJobService.start(req);
+    @ApiOperation("解绑触发器")
+    @PutMapping("/unBindTrigger")
+    public Result unBindTrigger(@RequestBody ScheduledJobsUpdateDTO req) throws BusinessException {
+        scheduledJobService.unBindTrigger(req);
         return Result.success();
     }
 
