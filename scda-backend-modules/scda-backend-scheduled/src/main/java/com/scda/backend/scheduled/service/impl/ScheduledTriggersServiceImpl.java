@@ -1,15 +1,15 @@
 package com.scda.backend.scheduled.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scda.backend.api.scheduled.IScheduledJobsService;
 import com.scda.backend.api.scheduled.IScheduledRelJobTriggerService;
-import com.scda.backend.api.scheduled.dto.ScheduledJobsReadDTO;
-import com.scda.backend.api.scheduled.dto.ScheduledTriggersCreateDTO;
-import com.scda.backend.api.scheduled.dto.ScheduledTriggersReadDTO;
+import com.scda.backend.api.scheduled.dto.*;
 import com.scda.backend.api.scheduled.entity.ScheduledJobs;
 import com.scda.backend.api.scheduled.entity.ScheduledRelJobTrigger;
 import com.scda.backend.api.scheduled.enums.ScheduleTypeEnum;
+import com.scda.backend.api.scheduled.vo.ScheduledTriggersDetailVO;
 import com.scda.backend.common.core.exception.BusinessException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -213,6 +213,26 @@ public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersM
         }
 
         return triggerBuilder.build();
+    }
+
+    @Override
+    public List<ScheduledTriggersDetailVO> read(ScheduledTriggersReadDTO req) {
+        return null;
+    }
+
+    @Override
+    public Page<ScheduledTriggersDetailVO> readPage(ScheduledTriggersReadDTO req) {
+        return null;
+    }
+
+    @Override
+    public void update(ScheduledTriggersUpdateDTO req) throws BusinessException {
+
+    }
+
+    @Override
+    public void delete(ScheduledTriggersDeleteDTO req) throws BusinessException {
+
     }
 }
 

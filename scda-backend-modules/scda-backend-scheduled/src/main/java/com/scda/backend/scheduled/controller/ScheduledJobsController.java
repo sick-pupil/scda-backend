@@ -48,7 +48,7 @@ public class ScheduledJobsController {
     }
 
     @ApiOperation("是否存在")
-    @PutMapping("/checkExists")
+    @GetMapping("/checkExists")
     public Result checkExists(ScheduledJobsReadDTO req) throws BusinessException {
         return Result.success(scheduledJobService.checkExists(req));
     }
