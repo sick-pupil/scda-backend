@@ -294,7 +294,6 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
         ScheduledRelJobTrigger relJobTrigger = relJobTriggerService.getRelsByJobId(job.getId());
         if(ObjectUtils.isNotEmpty(relJobTrigger)) {
             relJobTriggerService.removeById(relJobTrigger.getId());
-            triggersService.removeById(relJobTrigger.getTriggerId());
         }
         //删除job记录
         removeById(job.getId());
@@ -363,11 +362,12 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
             Trigger bind2JobTrigger = triggersService.transfer2Trigger(req.getBindTrigger());
             try {
                 scheduler.scheduleJob(jobDetail, bind2JobTrigger);
+                scheduler.pauseJob(jobDetail.getKey());
 
                 //更新为运行状态
                 ScheduledJobs updateJob = new ScheduledJobs();
                 updateJob.setId(job.getId());
-                updateJob.setRunStatus(JobRunStatusEnum.RUNNING.getRunStatus());
+                updateJob.setRunStatus(JobRunStatusEnum.PAUSE.getRunStatus());
                 updateById(updateJob);
             } catch (SchedulerException ex) {
                 throw new BusinessException("绑定该job与trigger失败");

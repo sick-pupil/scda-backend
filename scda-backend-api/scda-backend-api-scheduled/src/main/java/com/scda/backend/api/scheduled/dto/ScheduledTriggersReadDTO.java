@@ -1,10 +1,13 @@
 package com.scda.backend.api.scheduled.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.scda.backend.common.core.domain.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -52,18 +55,23 @@ public class ScheduledTriggersReadDTO implements Serializable {
      * 开始时刻
      */
     @ApiModelProperty("开始时刻")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime startAt;
 
     /**
      * 结束时刻
      */
     @ApiModelProperty("结束时刻")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endAt;
 
     /**
      * 调度类型，0简单，1cron，2日历，3每日
      */
     @ApiModelProperty("调度类型，0简单，1cron，2日历，3每日")
+    @NotNull(message = "调度类型非空")
     private Integer scheduleType;
 
     /**
@@ -179,4 +187,32 @@ public class ScheduledTriggersReadDTO implements Serializable {
      */
     @ApiModelProperty("创建者")
     private Long creatorUserId;
+
+    @ApiModelProperty("设置开始结束的开始时刻")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime startStartEndAt;
+
+    @ApiModelProperty("设置开始结束的结束时刻")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime endStartEndAt;
+
+    @ApiModelProperty("简单调度，最小间隔秒")
+    private Integer minSimpleIntervalSeconds;
+
+    @ApiModelProperty("简单调度，最大间隔秒")
+    private Integer maxSimpleIntervalSeconds;
+
+    @ApiModelProperty("简单调度，最小间隔分钟")
+    private Integer minSimpleIntervalMinutes;
+
+    @ApiModelProperty("简单调度，最大间隔分钟")
+    private Integer maxSimpleIntervalMinutes;
+
+    @ApiModelProperty("简单调度，最小间隔小时")
+    private Integer minSimpleIntervalHours;
+
+    @ApiModelProperty("简单调度，最大间隔小时")
+    private Integer maxSimpleIntervalHours;
 }

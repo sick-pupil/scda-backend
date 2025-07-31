@@ -1,6 +1,8 @@
 package com.scda.backend.scheduled.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scda.backend.api.scheduled.IScheduledJobsService;
@@ -9,8 +11,10 @@ import com.scda.backend.api.scheduled.dto.*;
 import com.scda.backend.api.scheduled.entity.ScheduledJobs;
 import com.scda.backend.api.scheduled.entity.ScheduledRelJobTrigger;
 import com.scda.backend.api.scheduled.enums.ScheduleTypeEnum;
+import com.scda.backend.api.scheduled.vo.ScheduledJobsDetailVO;
 import com.scda.backend.api.scheduled.vo.ScheduledTriggersDetailVO;
 import com.scda.backend.common.core.exception.BusinessException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
@@ -25,6 +29,7 @@ import com.scda.backend.scheduled.mapper.ScheduledTriggersMapper;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * @author 10045
@@ -34,6 +39,9 @@ import java.util.*;
 @Service
 public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersMapper, ScheduledTriggers>
     implements IScheduledTriggersService {
+
+    @Autowired
+    private Scheduler scheduler;
 
     @Autowired
     private IScheduledRelJobTriggerService relJobTriggerService;
@@ -217,22 +225,96 @@ public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersM
 
     @Override
     public List<ScheduledTriggersDetailVO> read(ScheduledTriggersReadDTO req) {
-        return null;
+        LambdaQueryWrapper<ScheduledTriggers> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(ScheduledTriggers::getScheduleType, req.getScheduleType());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getGroup()), ScheduledTriggers::getGroup, req.getGroup());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getName()), ScheduledTriggers::getName, req.getName());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getDesc()), ScheduledTriggers::getDesc, req.getDesc());
+        lambdaQueryWrapper.between(
+                ObjectUtils.isNotEmpty(req.getStartStartEndAt()) && ObjectUtils.isNotEmpty(req.getEndStartEndAt()),
+                ScheduledTriggers::getStartAt,
+                req.getStartStartEndAt(),
+                req.getEndStartEndAt()
+        );
+        lambdaQueryWrapper.between(
+                ObjectUtils.isNotEmpty(req.getStartStartEndAt()) && ObjectUtils.isNotEmpty(req.getEndStartEndAt()),
+                ScheduledTriggers::getEndAt,
+                req.getStartStartEndAt(),
+                req.getEndStartEndAt()
+        );
+        lambdaQueryWrapper.eq(ObjectUtils.isNotEmpty(req.getScheduleType()), ScheduledTriggers::getScheduleType, req.getScheduleType());
+
+        List<ScheduledTriggers> triggerList = (List<ScheduledTriggers>) CollectionUtils.emptyIfNull(list(lambdaQueryWrapper));
+        List<ScheduledTriggersDetailVO> triggersDetailVOList = triggerList.stream().map(i -> {
+            ScheduledTriggersDetailVO triggersDetailVO = new ScheduledTriggersDetailVO();
+            BeanUtils.copyProperties(i, triggersDetailVO);
+            return triggersDetailVO;
+        }).collect(Collectors.toList());
+        return triggersDetailVOList;
     }
 
     @Override
     public Page<ScheduledTriggersDetailVO> readPage(ScheduledTriggersReadDTO req) {
-        return null;
+        LambdaQueryWrapper<ScheduledTriggers> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(ScheduledTriggers::getScheduleType, req.getScheduleType());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getGroup()), ScheduledTriggers::getGroup, req.getGroup());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getName()), ScheduledTriggers::getName, req.getName());
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(req.getDesc()), ScheduledTriggers::getDesc, req.getDesc());
+        lambdaQueryWrapper.between(
+                ObjectUtils.isNotEmpty(req.getStartStartEndAt()) && ObjectUtils.isNotEmpty(req.getEndStartEndAt()),
+                ScheduledTriggers::getStartAt,
+                req.getStartStartEndAt(),
+                req.getEndStartEndAt()
+        );
+        lambdaQueryWrapper.between(
+                ObjectUtils.isNotEmpty(req.getStartStartEndAt()) && ObjectUtils.isNotEmpty(req.getEndStartEndAt()),
+                ScheduledTriggers::getEndAt,
+                req.getStartStartEndAt(),
+                req.getEndStartEndAt()
+        );
+        lambdaQueryWrapper.eq(ObjectUtils.isNotEmpty(req.getScheduleType()), ScheduledTriggers::getScheduleType, req.getScheduleType());
+
+        Page<ScheduledTriggers> page = new Page<>(req.getPageQuery().getCurrentPageIndex(), req.getPageQuery().getPageSize());
+        Page entityPageRs = page(page, lambdaQueryWrapper);
+
+        //转vo
+        List<ScheduledTriggers> triggerList = (List<ScheduledTriggers>) CollectionUtils.emptyIfNull(list(lambdaQueryWrapper));
+        List<ScheduledTriggersDetailVO> triggersDetailVOList = triggerList.stream().map(i -> {
+            ScheduledTriggersDetailVO triggersDetailVO = new ScheduledTriggersDetailVO();
+            BeanUtils.copyProperties(i, triggersDetailVO);
+            return triggersDetailVO;
+        }).collect(Collectors.toList());
+
+        Page<ScheduledTriggersDetailVO> voPageRs = new Page<>();
+        voPageRs.setRecords(triggersDetailVOList);
+        voPageRs.setTotal(entityPageRs.getTotal());
+
+        return voPageRs;
     }
 
     @Override
     public void update(ScheduledTriggersUpdateDTO req) throws BusinessException {
+        ScheduledTriggers trigger = getById(req.getId());
+        if(ObjectUtils.isEmpty(trigger)) {
+            throw new BusinessException("不存在该定时任务触发器");
+        }
 
+        //trigger是否绑定了job，未绑定则直接更新
+
+
+        //trigger是否绑定了job，绑定了则暂停job并解绑，更新trigger再重新绑定
     }
 
     @Override
     public void delete(ScheduledTriggersDeleteDTO req) throws BusinessException {
+        ScheduledTriggers trigger = getById(req.getId());
+        if(ObjectUtils.isEmpty(trigger)) {
+            throw new BusinessException("不存在该定时任务触发器");
+        }
 
+        //trigger是否绑定了job，未绑定则直接删除
+
+        //trigger是否绑定了job，绑定了则暂停job并解绑，删除trigger
     }
 }
 
