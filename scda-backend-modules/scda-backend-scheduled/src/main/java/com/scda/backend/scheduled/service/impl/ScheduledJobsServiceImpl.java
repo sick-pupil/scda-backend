@@ -71,7 +71,7 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
         //job入参
         JobDataMap jobDataMap = new JobDataMap();
         JSONObject jobParam = req.getParams();
-        if(jobParam != null && !jobParam.isEmpty()) {
+        if(ObjectUtils.isNotEmpty(jobParam) && !jobParam.isEmpty()) {
             jobDataMap.putAll(jobParam.to(Map.class));
         }
 
@@ -225,7 +225,7 @@ public class ScheduledJobsServiceImpl extends ServiceImpl<ScheduledJobMapper, Sc
         //job入参
         JobDataMap jobDataMap = new JobDataMap();
         JSONObject jobParam = req.getParams();
-        if(jobParam != null && !jobParam.isEmpty()) {
+        if(ObjectUtils.isNotEmpty(jobParam) && !jobParam.isEmpty()) {
             jobDataMap.putAll(jobParam.to(Map.class));
         }
 

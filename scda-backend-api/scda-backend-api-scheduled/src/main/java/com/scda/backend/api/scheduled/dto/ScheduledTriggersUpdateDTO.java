@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @ApiModel("更新定时任务触发器DTO")
 @Data
@@ -135,13 +136,13 @@ public class ScheduledTriggersUpdateDTO implements Serializable {
      * 每日调度，开始时刻
      */
     @ApiModelProperty("每日调度，开始时刻")
-    private LocalDateTime dailyStartAt;
+    private LocalTime dailyStartAt;
 
     /**
      * 每日调度，结束时刻
      */
     @ApiModelProperty("每日调度，结束时刻")
-    private LocalDateTime dailyEndAt;
+    private LocalTime dailyEndAt;
 
     /**
      * 每日调度，间隔秒

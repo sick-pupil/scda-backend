@@ -10,6 +10,7 @@ import com.scda.backend.api.scheduled.IScheduledRelJobTriggerService;
 import com.scda.backend.api.scheduled.dto.*;
 import com.scda.backend.api.scheduled.entity.ScheduledJobs;
 import com.scda.backend.api.scheduled.entity.ScheduledRelJobTrigger;
+import com.scda.backend.api.scheduled.enums.JobRunStatusEnum;
 import com.scda.backend.api.scheduled.enums.ScheduleTypeEnum;
 import com.scda.backend.api.scheduled.vo.ScheduledJobsDetailVO;
 import com.scda.backend.api.scheduled.vo.ScheduledTriggersDetailVO;
@@ -119,13 +120,13 @@ public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersM
                 .startAt(Date.from(triggers.getStartAt().atZone(ZoneId.systemDefault()).toInstant()))
                 .endAt(Date.from(triggers.getEndAt().atZone(ZoneId.systemDefault()).toInstant()));
 
-        if(req.getStartNow()) {
+        if(triggers.getStartNow()) {
             triggerBuilder = triggerBuilder.startNow();
         }
         if(ObjectUtils.isNotEmpty(triggers.getParams())) {
             JobDataMap jobDataMap = new JobDataMap();
             JSONObject jobParam = triggers.getParams();
-            if(jobParam != null && !jobParam.isEmpty()) {
+            if(ObjectUtils.isNotEmpty(jobParam) && !jobParam.isEmpty()) {
                 jobDataMap.putAll(jobParam.to(Map.class));
             }
             triggerBuilder = triggerBuilder.usingJobData(jobDataMap);
@@ -294,27 +295,95 @@ public class ScheduledTriggersServiceImpl extends ServiceImpl<ScheduledTriggersM
 
     @Override
     public void update(ScheduledTriggersUpdateDTO req) throws BusinessException {
-        ScheduledTriggers trigger = getById(req.getId());
-        if(ObjectUtils.isEmpty(trigger)) {
+        ScheduledTriggers oldTriggerRec = getById(req.getId());
+        if(ObjectUtils.isEmpty(oldTriggerRec)) {
             throw new BusinessException("不存在该定时任务触发器");
         }
 
-        //trigger是否绑定了job，未绑定则直接更新
-
+        //更新记录
+        ScheduledTriggers updateTrigger = new ScheduledTriggers();
+        BeanUtils.copyProperties(req, updateTrigger);
+        updateById(updateTrigger);
 
         //trigger是否绑定了job，绑定了则暂停job并解绑，更新trigger再重新绑定
+        ScheduledRelJobTrigger relJobTrigger = relJobTriggerService.getRelsByTriggerId(oldTriggerRec.getId());
+        TriggerKey oldTriggerKey = new TriggerKey(oldTriggerRec.getName(), oldTriggerRec.getGroup());
+        Trigger oldTrigger = null;
+        JobKey jobKey = null;
+        JobDetail jobDetail = null;
+        List<JobExecutionContext> executingJobs = null;
+        try {
+            oldTrigger = scheduler.getTrigger(oldTriggerKey);
+            jobKey = oldTrigger.getJobKey();
+            executingJobs = scheduler.getCurrentlyExecutingJobs();
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+
+        //trigger绑定了job
+        if(ObjectUtils.isNotEmpty(jobKey) && ObjectUtils.isNotEmpty(relJobTrigger)) {
+            ScheduledJobs jobRec = jobsService.getById(relJobTrigger.getJobId());
+
+            //判断该绑定job是否正在运行
+            Boolean isBindingJobRunning = Boolean.FALSE;
+            for(JobExecutionContext context : executingJobs) {
+                if(context.getJobDetail().getKey().equals(jobKey)) {
+                    jobDetail = context.getJobDetail();
+                    isBindingJobRunning = Boolean.TRUE;
+                }
+            }
+            //job正在运行则暂停job
+            if(isBindingJobRunning && jobRec.getRunStatus().compareTo(JobRunStatusEnum.RUNNING.getRunStatus()) == 0) {
+                try {
+                    scheduler.pauseJob(jobKey);
+                } catch (SchedulerException ex) {
+                    throw new BusinessException(ex.getMessage());
+                }
+            }
+            try {
+                //解绑trigger，重新绑定到job
+                scheduler.unscheduleJob(oldTriggerKey);
+                ScheduledTriggersReadDTO triggersReadDTO = new ScheduledTriggersReadDTO();
+                triggersReadDTO.setId(oldTriggerRec.getId());
+                Trigger newTrigger = transfer2Trigger(triggersReadDTO);
+                scheduler.scheduleJob(jobDetail, newTrigger);
+                //还原job原本的状态，运行则运行，暂停或新建则暂停
+                if(!isBindingJobRunning && jobRec.getRunStatus().compareTo(JobRunStatusEnum.RUNNING.getRunStatus()) != 0) {
+                    scheduler.pauseJob(jobKey);
+                }
+            } catch (SchedulerException ex) {
+                throw new BusinessException(ex.getMessage());
+            }
+        }
     }
 
     @Override
     public void delete(ScheduledTriggersDeleteDTO req) throws BusinessException {
-        ScheduledTriggers trigger = getById(req.getId());
-        if(ObjectUtils.isEmpty(trigger)) {
+        ScheduledTriggers oldTriggerRec = getById(req.getId());
+        if(ObjectUtils.isEmpty(oldTriggerRec)) {
             throw new BusinessException("不存在该定时任务触发器");
         }
 
-        //trigger是否绑定了job，未绑定则直接删除
+        //获取关联关系
+        ScheduledRelJobTrigger relJobTrigger = relJobTriggerService.getRelsByTriggerId(oldTriggerRec.getId());
 
-        //trigger是否绑定了job，绑定了则暂停job并解绑，删除trigger
+        //删除记录
+        removeById(oldTriggerRec.getId());
+        //删除关联关系
+        relJobTriggerService.removeById(relJobTrigger.getId());
+
+        //解绑trigger并删除trigger
+        try {
+            scheduler.unscheduleJob(new TriggerKey(oldTriggerRec.getName(), oldTriggerRec.getGroup()));
+        } catch (SchedulerException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+
+        //更新job状态为terminate
+        ScheduledJobs updateJob = new ScheduledJobs();
+        updateJob.setId(relJobTrigger.getJobId());
+        updateJob.setRunStatus(JobRunStatusEnum.TERMINATE.getRunStatus());
+        jobsService.updateById(updateJob);
     }
 }
 

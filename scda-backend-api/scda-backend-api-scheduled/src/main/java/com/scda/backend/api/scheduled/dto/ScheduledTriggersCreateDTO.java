@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @ApiModel("创建定时任务触发器DTO")
 @Data
@@ -132,13 +133,13 @@ public class ScheduledTriggersCreateDTO implements Serializable {
      * 每日调度，开始时刻
      */
     @ApiModelProperty("每日调度，开始时刻")
-    private LocalDateTime dailyStartAt;
+    private LocalTime dailyStartAt;
 
     /**
      * 每日调度，结束时刻
      */
     @ApiModelProperty("每日调度，结束时刻")
-    private LocalDateTime dailyEndAt;
+    private LocalTime dailyEndAt;
 
     /**
      * 每日调度，间隔秒

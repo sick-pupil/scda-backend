@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(value = "定时任务触发器接口", tags = "定时任务触发器接口")
 @RestController
 @RequestMapping("/scheduledTrigger")
@@ -22,7 +24,7 @@ public class ScheduledTriggersController {
 
     @ApiOperation("创建")
     @PostMapping("/create")
-    public Result create(@RequestBody ScheduledTriggersCreateDTO req) throws BusinessException {
+    public Result create(@Valid @RequestBody ScheduledTriggersCreateDTO req) throws BusinessException {
         scheduledTriggersService.create(req);
         return Result.success();
     }
@@ -48,14 +50,14 @@ public class ScheduledTriggersController {
 
     @ApiOperation("更新")
     @PutMapping("/update")
-    public Result update(@RequestBody ScheduledTriggersUpdateDTO req) throws BusinessException {
+    public Result update(@Valid @RequestBody ScheduledTriggersUpdateDTO req) throws BusinessException {
         scheduledTriggersService.update(req);
         return Result.success();
     }
 
     @ApiOperation("删除")
     @DeleteMapping("/delete")
-    public Result delete(@RequestBody ScheduledTriggersDeleteDTO req) throws BusinessException {
+    public Result delete(@Valid @RequestBody ScheduledTriggersDeleteDTO req) throws BusinessException {
         scheduledTriggersService.delete(req);
         return Result.success();
     }
