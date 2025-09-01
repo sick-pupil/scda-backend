@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scda.backend.system.mapper.SystemUserLoginInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.scda.backend.api.system.entity.SystemUserLoginInfo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="country" column="country" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="town" column="town" jdbcType="VARCHAR"/>
+        <result property="ua" column="ua" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="SMALLINT"/>
+        <result property="creatorUserId" column="creator_user_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updatorUserId" column="updator_user_id" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,ip,
+        location,country,province,
+        city,district,town,
+        ua,deleted,creator_user_id,
+        create_time,updator_user_id,update_time,
+        version,tenant_id
+    </sql>
+</mapper>

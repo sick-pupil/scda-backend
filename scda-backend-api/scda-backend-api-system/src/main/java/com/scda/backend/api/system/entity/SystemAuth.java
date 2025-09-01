@@ -1,4 +1,4 @@
-package com.scda.backend.api.scheduled.entity;
+package com.scda.backend.api.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,16 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@ApiModel(value="ScheduledRelJobTrigger对象", description="")
+@ApiModel(value="SystemAuth对象", description="系统权限")
 @Data
-@TableName("scheduled_rel_job_trigger")
+@TableName("system_auth")
 /**
-* 
-* @TableName scheduled_rel_job_trigger
+* 系统权限
+* @TableName system_auth
 */
-public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
+public class SystemAuth extends Model<SystemAuth> {
 
 
     /**
@@ -30,18 +29,18 @@ public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
 
 
     /**
-    * jobId
+    * 权限名称
     */
-    @ApiModelProperty("jobId")
-    @TableField("job_id")
-    private Long jobId;
+    @ApiModelProperty("权限名称")
+    @TableField("name")
+    private String name;
 
     /**
-    * triggerId
+    * 权限编码
     */
-    @ApiModelProperty("triggerId")
-    @TableField("trigger_id")
-    private Long triggerId;
+    @ApiModelProperty("权限编码")
+    @TableField("code")
+    private String code;
 
     /**
     * 是否被删除

@@ -1,4 +1,4 @@
-package com.scda.backend.api.scheduled.entity;
+package com.scda.backend.api.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,16 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@ApiModel(value="ScheduledRelJobTrigger对象", description="")
+@ApiModel(value="SystemRelDictData对象", description="系统字典与字典数据关联")
 @Data
-@TableName("scheduled_rel_job_trigger")
+@TableName("system_rel_dict_data")
 /**
-* 
-* @TableName scheduled_rel_job_trigger
+* 系统字典与字典数据关联
+* @TableName system_rel_dict_data
 */
-public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
+public class SystemRelDictData extends Model<SystemRelDictData> {
 
 
     /**
@@ -30,18 +29,18 @@ public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
 
 
     /**
-    * jobId
+    * 字典id
     */
-    @ApiModelProperty("jobId")
-    @TableField("job_id")
-    private Long jobId;
+    @ApiModelProperty("字典id")
+    @TableField("dict_id")
+    private Long dictId;
 
     /**
-    * triggerId
+    * 字典数据id
     */
-    @ApiModelProperty("triggerId")
-    @TableField("trigger_id")
-    private Long triggerId;
+    @ApiModelProperty("字典数据id")
+    @TableField("dict_data_id")
+    private Long dictDataId;
 
     /**
     * 是否被删除

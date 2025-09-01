@@ -1,4 +1,4 @@
-package com.scda.backend.api.scheduled.entity;
+package com.scda.backend.api.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,16 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@ApiModel(value="ScheduledRelJobTrigger对象", description="")
+@ApiModel(value="SystemMenu对象", description="系统菜单")
 @Data
-@TableName("scheduled_rel_job_trigger")
+@TableName("system_menu")
 /**
-* 
-* @TableName scheduled_rel_job_trigger
+* 系统菜单
+* @TableName system_menu
 */
-public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
+public class SystemMenu extends Model<SystemMenu> {
 
 
     /**
@@ -30,18 +29,67 @@ public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
 
 
     /**
-    * jobId
+    * 菜单名称
     */
-    @ApiModelProperty("jobId")
-    @TableField("job_id")
-    private Long jobId;
+    @ApiModelProperty("菜单名称")
+    @TableField("name")
+    private String name;
 
     /**
-    * triggerId
+    * 菜单编码
     */
-    @ApiModelProperty("triggerId")
-    @TableField("trigger_id")
-    private Long triggerId;
+    @ApiModelProperty("菜单编码")
+    @TableField("code")
+    private String code;
+
+    /**
+    * 父级菜单id
+    */
+    @ApiModelProperty("父级菜单id")
+    @TableField("parent_id")
+    private Long parentId;
+
+    /**
+    * 显示顺序
+    */
+    @ApiModelProperty("显示顺序")
+    @TableField("order_seq")
+    private Integer orderSeq;
+
+    /**
+    * 组件路径
+    */
+    @ApiModelProperty("组件路径")
+    @TableField("component_path")
+    private String componentPath;
+
+    /**
+    * 组件名称
+    */
+    @ApiModelProperty("组件名称")
+    @TableField("component_name")
+    private String componentName;
+
+    /**
+    * 组件
+    */
+    @ApiModelProperty("组件")
+    @TableField("component")
+    private String component;
+
+    /**
+    * 1菜单，2按钮
+    */
+    @ApiModelProperty("1菜单，2按钮")
+    @TableField("type")
+    private Integer type;
+
+    /**
+    * 菜单图标
+    */
+    @ApiModelProperty("菜单图标")
+    @TableField("icon")
+    private String icon;
 
     /**
     * 是否被删除

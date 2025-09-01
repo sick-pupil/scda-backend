@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scda.backend.system.mapper.SystemApiOperLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.scda.backend.api.system.entity.SystemApiOperLog">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="reqUrl" column="req_url" jdbcType="VARCHAR"/>
+        <result property="reqMethod" column="req_method" jdbcType="VARCHAR"/>
+        <result property="reqIp" column="req_ip" jdbcType="VARCHAR"/>
+        <result property="reqLocation" column="req_location" jdbcType="VARCHAR"/>
+        <result property="reqCountry" column="req_country" jdbcType="VARCHAR"/>
+        <result property="reqProvince" column="req_province" jdbcType="VARCHAR"/>
+        <result property="reqCity" column="req_city" jdbcType="VARCHAR"/>
+        <result property="reqDistrict" column="req_district" jdbcType="VARCHAR"/>
+        <result property="reqTown" column="req_town" jdbcType="VARCHAR"/>
+        <result property="reqParams" column="req_params" jdbcType="VARCHAR"/>
+        <result property="respParams" column="resp_params" jdbcType="VARCHAR"/>
+        <result property="respType" column="resp_type" jdbcType="SMALLINT"/>
+        <result property="exceptionMsg" column="exception_msg" jdbcType="VARCHAR"/>
+        <result property="costTime" column="cost_time" jdbcType="BIGINT"/>
+        <result property="deleted" column="deleted" jdbcType="SMALLINT"/>
+        <result property="creatorUserId" column="creator_user_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updatorUserId" column="updator_user_id" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,req_url,req_method,
+        req_ip,req_location,req_country,
+        req_province,req_city,req_district,
+        req_town,req_params,resp_params,
+        resp_type,exception_msg,cost_time,
+        deleted,creator_user_id,create_time,
+        updator_user_id,update_time,version,
+        tenant_id
+    </sql>
+</mapper>

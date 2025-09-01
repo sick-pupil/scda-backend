@@ -1,4 +1,4 @@
-package com.scda.backend.api.scheduled.entity;
+package com.scda.backend.api.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,16 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@ApiModel(value="ScheduledRelJobTrigger对象", description="")
+@ApiModel(value="SystemUser对象", description="系统用户")
 @Data
-@TableName("scheduled_rel_job_trigger")
+@TableName("system_user")
 /**
-* 
-* @TableName scheduled_rel_job_trigger
+* 系统用户
+* @TableName system_user
 */
-public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
+public class SystemUser extends Model<SystemUser> {
 
 
     /**
@@ -30,18 +29,46 @@ public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
 
 
     /**
-    * jobId
+    * 账号
     */
-    @ApiModelProperty("jobId")
-    @TableField("job_id")
-    private Long jobId;
+    @ApiModelProperty("账号")
+    @TableField("account")
+    private String account;
 
     /**
-    * triggerId
+    * 用户名
     */
-    @ApiModelProperty("triggerId")
-    @TableField("trigger_id")
-    private Long triggerId;
+    @ApiModelProperty("用户名")
+    @TableField("username")
+    private String username;
+
+    /**
+    * 邮箱号
+    */
+    @ApiModelProperty("邮箱号")
+    @TableField("email")
+    private String email;
+
+    /**
+    * 手机号
+    */
+    @ApiModelProperty("手机号")
+    @TableField("phone")
+    private String phone;
+
+    /**
+    * 密码
+    */
+    @ApiModelProperty("密码")
+    @TableField("password")
+    private String password;
+
+    /**
+    * 头像
+    */
+    @ApiModelProperty("头像")
+    @TableField("avatar")
+    private String avatar;
 
     /**
     * 是否被删除

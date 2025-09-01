@@ -24,7 +24,7 @@ public class ScheduledJobsController {
 
     @ApiOperation("创建")
     @PostMapping("/create")
-    public Result create(@Valid  @RequestBody ScheduledJobsCreateDTO req) throws BusinessException {
+    public Result create(@Valid @RequestBody ScheduledJobsCreateDTO req) throws BusinessException {
         scheduledJobService.create(req);
         return Result.success();
     }

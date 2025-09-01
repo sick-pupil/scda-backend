@@ -1,4 +1,4 @@
-package com.scda.backend.api.scheduled.entity;
+package com.scda.backend.api.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -9,16 +9,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@ApiModel(value="ScheduledRelJobTrigger对象", description="")
+@ApiModel(value="SystemUserLoginInfo对象", description="系统用户登录日志")
 @Data
-@TableName("scheduled_rel_job_trigger")
+@TableName("system_user_login_info")
 /**
-* 
-* @TableName scheduled_rel_job_trigger
+* 系统用户登录日志
+* @TableName system_user_login_info
 */
-public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
+public class SystemUserLoginInfo extends Model<SystemUserLoginInfo> {
 
 
     /**
@@ -30,18 +29,67 @@ public class ScheduledRelJobTrigger extends Model<ScheduledRelJobTrigger> {
 
 
     /**
-    * jobId
+    * 用户id
     */
-    @ApiModelProperty("jobId")
-    @TableField("job_id")
-    private Long jobId;
+    @ApiModelProperty("用户id")
+    @TableField("user_id")
+    private Long userId;
 
     /**
-    * triggerId
+    * 登录ip
     */
-    @ApiModelProperty("triggerId")
-    @TableField("trigger_id")
-    private Long triggerId;
+    @ApiModelProperty("登录ip")
+    @TableField("ip")
+    private String ip;
+
+    /**
+    * 登录地点
+    */
+    @ApiModelProperty("登录地点")
+    @TableField("location")
+    private String location;
+
+    /**
+    * 国家
+    */
+    @ApiModelProperty("国家")
+    @TableField("country")
+    private String country;
+
+    /**
+    * 省份
+    */
+    @ApiModelProperty("省份")
+    @TableField("province")
+    private String province;
+
+    /**
+    * 地市
+    */
+    @ApiModelProperty("地市")
+    @TableField("city")
+    private String city;
+
+    /**
+    * 区
+    */
+    @ApiModelProperty("区")
+    @TableField("district")
+    private String district;
+
+    /**
+    * 镇
+    */
+    @ApiModelProperty("镇")
+    @TableField("town")
+    private String town;
+
+    /**
+    * 登录设备
+    */
+    @ApiModelProperty("登录设备")
+    @TableField("ua")
+    private String ua;
 
     /**
     * 是否被删除
