@@ -58,10 +58,4 @@ public class SystemApiOperLogController {
         systemApiOperLogService.delete(req);
         return Result.success();
     }
-
-    @ApiOperation("是否存在")
-    @GetMapping("/checkExists")
-    public Result checkExists(SystemApiOperLogReadDTO req) throws BusinessException {
-        return Result.success(systemApiOperLogService.checkExists(req));
-    }
 }

@@ -28,8 +28,6 @@ public interface ISystemApiOperLogService extends IService<SystemApiOperLog> {
 
     Page<SystemApiOperLogDetailVO> readPage(SystemApiOperLogReadDTO req);
 
-    Boolean checkExists(SystemApiOperLogReadDTO req) throws BusinessException;
-
     void update(SystemApiOperLogUpdateDTO req) throws BusinessException;
 
     void delete(SystemApiOperLogDeleteDTO req) throws BusinessException;

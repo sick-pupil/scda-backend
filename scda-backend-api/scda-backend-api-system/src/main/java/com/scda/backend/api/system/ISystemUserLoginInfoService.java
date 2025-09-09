@@ -28,8 +28,6 @@ public interface ISystemUserLoginInfoService extends IService<SystemUserLoginInf
 
     Page<SystemUserLoginInfoDetailVO> readPage(SystemUserLoginInfoReadDTO req);
 
-    Boolean checkExists(SystemUserLoginInfoReadDTO req) throws BusinessException;
-
     void update(SystemUserLoginInfoUpdateDTO req) throws BusinessException;
 
     void delete(SystemUserLoginInfoDeleteDTO req) throws BusinessException;

@@ -97,4 +97,16 @@ public class SystemApiOperLogReadDTO implements Serializable {
      */
     @ApiModelProperty("消耗时间，单位毫秒")
     private Long costTime;
+
+    /**
+     * 最小消耗时间，单位毫秒
+     */
+    @ApiModelProperty("最小消耗时间，单位毫秒")
+    private Long minCostTime;
+
+    /**
+     * 最大消耗时间，单位毫秒
+     */
+    @ApiModelProperty("最大消耗时间，单位毫秒")
+    private Long maxCostTime;
 }

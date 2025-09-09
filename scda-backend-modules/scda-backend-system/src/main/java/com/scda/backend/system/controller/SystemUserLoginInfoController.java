@@ -58,10 +58,4 @@ public class SystemUserLoginInfoController {
         systemUserLoginInfoService.delete(req);
         return Result.success();
     }
-
-    @ApiOperation("是否存在")
-    @GetMapping("/checkExists")
-    public Result checkExists(SystemUserLoginInfoReadDTO req) throws BusinessException {
-        return Result.success(systemUserLoginInfoService.checkExists(req));
-    }
 }
